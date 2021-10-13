@@ -1,14 +1,24 @@
 <script>
   export let items;
+
+  // dynamic statements (labelled statement in JS)
+  // whenever items changes, it re-renders this
+  $: cartTotal = items.reduce((sum, currValue) => {
+    return sum + currValue.price;
+  }, 0);
 </script>
 
-<ul>
-  {#each items as item}
-    <li>{item.title} - {item.price}</li>
-  {/each}
-</ul>
+{#if !items.length}
+  <p>No Items In Cart Yet</p>
+  {:else}
+  <ul>
+    {#each items as item}
+      <li>{item.title} - ${item.price}</li>
+    {/each}
+  </ul>
+{/if}
 
-<h1>TOTAL: $...</h1>
+<h1>TOTAL: ${cartTotal}</h1>
 
 <style>
   ul {
