@@ -6,6 +6,7 @@
 	let price = 0;
 	let description = '';
 	let products = [];
+	let cartItems = [];
 
 	function createProduct() {
 		const newProduct = {
@@ -24,6 +25,17 @@
 
 	function setTitle(e) {
 		title = e.target.value;
+	}
+
+	function addToCart(event) {
+		// console.log(event);
+		const selectedTitle = event.detail;
+		cartItems = cartItems.concat(
+			// avoid any mutations
+			{ ...products.find((prod) => prod.title === selectedTitle) }
+		);
+
+		console.log(cartItems);
 	}
 </script>
 
@@ -58,8 +70,9 @@
 	<Button on:click={createProduct}>Add Product</Button>
 </section>
 
-<!-- special block syntax -->
-{#if !products.length}
+<section>
+	<!-- special block syntax -->
+	{#if !products.length}
 	<p>No Products were added yet</p>
 	{:else}
 	<!-- loop thru the products array -->
@@ -68,9 +81,11 @@
 			productTitle={product.title}
 			productPrice={product.price}
 			productDescription={product.description}
+			on:addCart={addToCart}
 		/>
 	{/each}
-{/if}
+	{/if}
+</section>
 
 <style>
 	section {

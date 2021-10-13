@@ -1,10 +1,16 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import Button from './Button.svelte';
 
   // specifying props that can be inputted to this component
   export let productTitle;
   export let productPrice;
   export let productDescription;
+
+  const dispatch = createEventDispatcher();
+  function addToCart() {
+    dispatch('addCart', productTitle);
+  }
 </script>
 
 
@@ -12,7 +18,7 @@
   <h1>{productTitle}</h1>
   <h2>{productPrice}</h2>
   <p>{productDescription}</p>
-  <Button>Add To Cart</Button>
+  <Button on:click={addToCart}>Add To Cart</Button>
 </div>
 
 <!-- Svelte styles are automatically component scoped -->
